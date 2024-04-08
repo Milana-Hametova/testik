@@ -1,0 +1,41 @@
+class VitaminApp(App):
+    def build(self):
+        tab_panel = TabbedPanel(do_default_tab=False)
+        tab_panel.default_tab_text = 'Калькулятор'
+
+        # Вкладка для калькулятора
+        calculator_tab = TabbedPanelItem(text='Калькулятор')
+        calculator_tab.add_widget(self.build_calculator())
+        tab_panel.add_widget(calculator_tab)
+
+        # Вкладка для таблицы с данными о фрукте
+        fruit_tab = TabbedPanelItem(text='Таблица')
+        fruit_tab.add_widget(self.build_table())
+        tab_panel.add_widget(fruit_tab)
+
+        # Вкладка для статьи
+        article_tab = TabbedPanelItem(text='Статья')
+        article_tab.add_widget(Label(text='Статья будет здесь', font_size=20))
+        tab_panel.add_widget(article_tab)
+
+        # Вкладка для соцсетей
+        social_tab = TabbedPanelItem(text='Соцсети')
+        social_tab.add_widget(Label(text='Соцсети будут здесь', font_size=20))
+        tab_panel.add_widget(social_tab)
+
+        return tab_panel
+
+    def build_table(self):
+        data_layout = FloatLayout()
+
+        # Read data from Excel file
+        df = pd.read_excel('example.xlsx')
+
+        # Format data into a string
+        table_data = "\n".join(["\t".join(map(str, row)) for row in df.itertuples(index=False)])
+
+        # Display data in a label
+        table_label = Label(text=table_data, size_hint=(0.9, 0.9), pos_hint={'center_x': 0.5, 'center_y': 0.5}, font_size=20)
+        data_layout.add_widget(table_label)
+
+        return data_layout
